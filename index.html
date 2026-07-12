@@ -16,7 +16,7 @@
     --ink:#3D3435;
     --line:rgba(198,130,142,0.35);
   }
-
+ 
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -32,11 +32,11 @@
     align-items:center;
     padding:24px 16px 48px;
   }
-
+ 
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
   }
-
+ 
   .brand{
     text-align:center;
     margin-bottom:18px;
@@ -61,7 +61,7 @@
     font-size:13px;
     color:#8a7f7f;
   }
-
+ 
   .stage{
     width:100%;
     max-width:460px;
@@ -72,7 +72,7 @@
     border:1px solid var(--line);
     position:relative;
   }
-
+ 
   /* signature: delicate line-art floral corners, like an invitation card */
   .corner{
     position:absolute;
@@ -85,7 +85,7 @@
   .corner.tr{top:8px; right:8px; transform:scaleX(-1);}
   .corner.bl{bottom:8px; left:8px; transform:scaleY(-1);}
   .corner.br{bottom:8px; right:8px; transform:scale(-1,-1);}
-
+ 
   .frame{
     position:relative;
     width:100%;
@@ -112,7 +112,7 @@
     line-height:1.6;
   }
   .placeholder .icon{font-size:34px; display:block; margin-bottom:8px;}
-
+ 
   .flash{
     position:absolute; inset:0;
     background:#fff;
@@ -121,13 +121,13 @@
   }
   .flash.pop{ animation:flashpop 350ms ease-out; }
   @keyframes flashpop{ 0%{opacity:0.85;} 100%{opacity:0;} }
-
+ 
   .controls{
     display:flex;
     gap:10px;
     margin-top:16px;
   }
-
+ 
   button{
     font-family:'Poppins', sans-serif;
     border:none;
@@ -139,7 +139,7 @@
     outline:3px solid var(--gold);
     outline-offset:2px;
   }
-
+ 
   .btn-primary{
     flex:1;
     background:linear-gradient(135deg, var(--rose), var(--rose-dark));
@@ -152,7 +152,7 @@
   }
   .btn-primary:active{transform:scale(0.97);}
   .btn-primary:disabled{opacity:0.45; cursor:not-allowed;}
-
+ 
   .btn-ghost{
     background:#fff;
     color:var(--rose-dark);
@@ -161,7 +161,7 @@
     border-radius:16px;
     font-size:15px;
   }
-
+ 
   .tabbar{
     display:flex;
     gap:8px;
@@ -185,7 +185,7 @@
     background:#fff;
     box-shadow:0 4px 10px -4px rgba(168,93,108,0.4);
   }
-
+ 
   .gallery-wrap{
     width:100%;
     max-width:460px;
@@ -199,6 +199,16 @@
     background:#fff;
     border-radius:20px;
     border:1px dashed var(--line);
+  }
+  .gallery-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:10px;
+  }
+  .btn-small{
+    padding:8px 14px;
+    border-radius:12px;
+    font-size:13px;
   }
   .grid{
     display:grid;
@@ -231,7 +241,7 @@
     color:#fff;
     border-color:var(--rose-dark);
   }
-
+ 
   .send-bar{
     width:100%;
     max-width:460px;
@@ -245,7 +255,7 @@
     color:#8a7f7f;
     white-space:nowrap;
   }
-
+ 
   .toast{
     position:fixed;
     bottom:20px; left:50%;
@@ -260,7 +270,7 @@
     z-index:50;
     box-shadow:0 10px 25px -10px rgba(0,0,0,0.4);
   }
-
+ 
   .hint{
     font-size:12px;
     color:#a99c9c;
@@ -268,12 +278,12 @@
     margin-top:10px;
     max-width:400px;
   }
-
+ 
   a.folder-link{
     color:var(--rose-dark);
     font-weight:600;
   }
-
+ 
   .modal-overlay{
     position:fixed;
     inset:0;
@@ -327,18 +337,18 @@
 </style>
 </head>
 <body>
-
+ 
   <div class="brand">
     <div class="eyebrow">The Wedding of</div>
     <h1>Léa &amp; Yanis</h1>
     <p>Snap a memory. Share it with the bride. 💌</p>
   </div>
-
+ 
   <div class="tabbar">
     <button id="tabCamera" class="active">📷 Camera</button>
     <button id="tabGallery">🖼️ Gallery <span id="galleryBadge"></span></button>
   </div>
-
+ 
   <!-- CAMERA VIEW -->
   <div id="viewCamera">
     <div class="stage" style="margin-top:14px;">
@@ -346,7 +356,7 @@
       <svg class="corner tr" viewBox="0 0 60 60"><path d="M2 40 C2 20 20 2 40 2" fill="none" stroke="#C9A15A" stroke-width="1.4"/><circle cx="40" cy="2" r="2.5" fill="#C6828E"/><circle cx="30" cy="6" r="1.8" fill="#C6828E"/></svg>
       <svg class="corner bl" viewBox="0 0 60 60"><path d="M2 40 C2 20 20 2 40 2" fill="none" stroke="#C9A15A" stroke-width="1.4"/><circle cx="40" cy="2" r="2.5" fill="#C6828E"/><circle cx="30" cy="6" r="1.8" fill="#C6828E"/></svg>
       <svg class="corner br" viewBox="0 0 60 60"><path d="M2 40 C2 20 20 2 40 2" fill="none" stroke="#C9A15A" stroke-width="1.4"/><circle cx="40" cy="2" r="2.5" fill="#C6828E"/><circle cx="30" cy="6" r="1.8" fill="#C6828E"/></svg>
-
+ 
       <div class="frame" id="frame">
         <div class="placeholder" id="placeholder">
           <span class="icon">🤍</span>
@@ -355,7 +365,7 @@
         <video id="video" autoplay playsinline muted style="display:none;"></video>
         <div class="flash" id="flash"></div>
       </div>
-
+ 
       <div class="controls">
         <button class="btn-ghost" id="startBtn">Start camera</button>
         <button class="btn-primary" id="captureBtn" disabled>📸 Capture</button>
@@ -363,14 +373,17 @@
     </div>
     <p class="hint">Photos stay on your phone until you choose to send them — nothing uploads automatically.</p>
   </div>
-
+ 
   <!-- GALLERY VIEW -->
   <div id="viewGallery" class="gallery-wrap" style="display:none;">
     <div id="galleryEmpty" class="gallery-empty">
       No photos yet — go capture a few first! 🌸
     </div>
+    <div class="gallery-actions" id="galleryActions" style="display:none;">
+      <button class="btn-ghost btn-small" id="selectAllBtn">Select all</button>
+    </div>
     <div id="grid" class="grid"></div>
-
+ 
     <div class="send-bar" id="sendBar" style="display:none;">
       <button class="btn-primary" id="sendBtn">💐 Send to Léa</button>
       <span class="send-count" id="sendCount"></span>
@@ -379,9 +392,9 @@
       Tap photos to select, then send. On phones this opens your share sheet — choose <b>Google Drive</b> to drop them straight into the wedding album.
     </p>
   </div>
-
+ 
   <canvas id="canvas" style="display:none;"></canvas>
-
+ 
   <!-- PERMISSION HELP MODAL -->
   <div class="modal-overlay" id="permModal">
     <div class="modal">
@@ -394,7 +407,19 @@
       </div>
     </div>
   </div>
-
+ 
+  <!-- LEAVE WARNING MODAL -->
+  <div class="modal-overlay" id="leaveModal">
+    <div class="modal">
+      <h3>Leaving so soon? 🥺</h3>
+      <p class="lead" id="leaveLead">If you go back now, your photos from this session will be lost — they haven't been sent anywhere yet.</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="leaveGoBtn">Yes, sorry !</button>
+        <button class="btn-primary" id="leaveStayBtn">Take more pics !</button>
+      </div>
+    </div>
+  </div>
+ 
 <script>
   // ---- CONFIGURE ME -------------------------------------------------
   // Optional: paste a shareable Google Drive folder link below (a folder
@@ -403,30 +428,32 @@
   // files directly to the Drive app.
   const DRIVE_FOLDER_URL = ""; // e.g. "https://drive.google.com/drive/folders/XXXXXXXX"
   // ---------------------------------------------------------------------
-
+ 
   const video = document.getElementById('video');
   const placeholder = document.getElementById('placeholder');
   const startBtn = document.getElementById('startBtn');
   const captureBtn = document.getElementById('captureBtn');
   const canvas = document.getElementById('canvas');
   const flash = document.getElementById('flash');
-
+ 
   const tabCamera = document.getElementById('tabCamera');
   const tabGallery = document.getElementById('tabGallery');
   const viewCamera = document.getElementById('viewCamera');
   const viewGallery = document.getElementById('viewGallery');
   const galleryBadge = document.getElementById('galleryBadge');
   const galleryEmpty = document.getElementById('galleryEmpty');
+  const galleryActions = document.getElementById('galleryActions');
+  const selectAllBtn = document.getElementById('selectAllBtn');
   const grid = document.getElementById('grid');
   const sendBar = document.getElementById('sendBar');
   const sendBtn = document.getElementById('sendBtn');
   const sendCount = document.getElementById('sendCount');
   const galleryHint = document.getElementById('galleryHint');
-
+ 
   let stream = null;
   let photos = []; // {id, blob, url, selected}
   let photoSeq = 0;
-
+ 
   function toast(msg, ms=2600){
     const t = document.createElement('div');
     t.className = 'toast';
@@ -434,14 +461,14 @@
     document.body.appendChild(t);
     setTimeout(()=> t.remove(), ms);
   }
-
+ 
   // ---- Permission help modal -------------------------------------------
   const permModal = document.getElementById('permModal');
   const permSteps = document.getElementById('permSteps');
   const permLead = document.getElementById('permLead');
   const permClose = document.getElementById('permClose');
   const permRetry = document.getElementById('permRetry');
-
+ 
   function detectPlatform(){
     const ua = navigator.userAgent;
     const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
@@ -449,7 +476,7 @@
     const isChrome = /Chrome/.test(ua) && !/Edg|OPR/.test(ua);
     const isFirefox = /Firefox/.test(ua);
     const isSafari = /Safari/.test(ua) && !isChrome && !isFirefox;
-
+ 
     if(isIOS) return 'ios-safari';
     if(isAndroid && isChrome) return 'android-chrome';
     if(isAndroid) return 'android-other';
@@ -458,7 +485,7 @@
     if(isSafari) return 'desktop-safari';
     return 'other';
   }
-
+ 
   const PERMISSION_STEPS = {
     'ios-safari': [
       'Open the <b>Settings</b> app on your phone.',
@@ -498,7 +525,7 @@
       'Come back and click "Try again" below.'
     ]
   };
-
+ 
   function showPermissionHelp(reason){
     const platform = detectPlatform();
     const steps = PERMISSION_STEPS[platform] || PERMISSION_STEPS.other;
@@ -510,14 +537,14 @@
       : steps.map(s => `<li>${s}</li>`).join('');
     permModal.classList.add('show');
   }
-
+ 
   permClose.addEventListener('click', () => permModal.classList.remove('show'));
   permRetry.addEventListener('click', () => {
     permModal.classList.remove('show');
     startCamera();
   });
   // -----------------------------------------------------------------------
-
+ 
   async function startCamera(){
     try{
       stream = await navigator.mediaDevices.getUserMedia({
@@ -539,20 +566,20 @@
       }
     }
   }
-
+ 
   startBtn.addEventListener('click', startCamera);
-
+ 
   captureBtn.addEventListener('click', () => {
     if(!video.videoWidth) return;
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+ 
     flash.classList.remove('pop');
     void flash.offsetWidth; // restart animation
     flash.classList.add('pop');
-
+ 
     canvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
       photoSeq++;
@@ -561,7 +588,7 @@
       toast('Photo captured! 🎉');
     }, 'image/jpeg', 0.92);
   });
-
+ 
   function switchTab(tab){
     if(tab === 'camera'){
       tabCamera.classList.add('active');
@@ -577,7 +604,13 @@
   }
   tabCamera.addEventListener('click', () => switchTab('camera'));
   tabGallery.addEventListener('click', () => switchTab('gallery'));
-
+ 
+  selectAllBtn.addEventListener('click', () => {
+    const allSelected = photos.length > 0 && photos.every(p => p.selected);
+    photos.forEach(p => p.selected = !allSelected);
+    renderGallery();
+  });
+ 
   function renderGallery(){
     galleryBadge.textContent = photos.length ? `(${photos.length})` : '';
     galleryEmpty.style.display = photos.length ? 'none' : 'block';
@@ -596,28 +629,32 @@
     if(photos.length){
       sendBar.style.display = 'flex';
       galleryHint.style.display = 'block';
+      galleryActions.style.display = 'flex';
+      const allSelected = photos.every(p => p.selected);
+      selectAllBtn.textContent = allSelected ? 'Deselect all' : 'Select all';
     }else{
       sendBar.style.display = 'none';
       galleryHint.style.display = 'none';
+      galleryActions.style.display = 'none';
     }
     sendCount.textContent = selected.length ? `${selected.length} selected` : 'None selected';
     sendBtn.disabled = selected.length === 0;
   }
-
+ 
   sendBtn.addEventListener('click', async () => {
     const selected = photos.filter(p => p.selected);
     if(!selected.length) return;
-
+ 
     const files = selected.map((p, i) =>
       new File([p.blob], `wedding-photo-${p.id}.jpg`, { type: 'image/jpeg' })
     );
-
+ 
     const shareData = {
       files,
       title: 'Wedding photos for Léa',
       text: 'A photo from the wedding 💐'
     };
-
+ 
     if(navigator.canShare && navigator.canShare(shareData)){
       try{
         await navigator.share(shareData);
@@ -628,7 +665,7 @@
         if(err && err.name === 'AbortError') return;
       }
     }
-
+ 
     // Fallback: download the photos, then point to the shared Drive folder
     selected.forEach((p, i) => {
       const a = document.createElement('a');
@@ -638,7 +675,7 @@
       a.click();
       a.remove();
     });
-
+ 
     if(DRIVE_FOLDER_URL){
       toast('Photos downloaded — opening the wedding Drive folder to drop them in.');
       window.open(DRIVE_FOLDER_URL, '_blank');
@@ -646,9 +683,66 @@
       toast('Photos downloaded to your device — add them to the wedding album whenever you like!');
     }
   });
-
+ 
   renderGallery();
+ 
+  // ---- Leave-warning guard (back button / back gesture) -----------------
+  const leaveModal = document.getElementById('leaveModal');
+  const leaveLead = document.getElementById('leaveLead');
+  const leaveGoBtn = document.getElementById('leaveGoBtn');
+  const leaveStayBtn = document.getElementById('leaveStayBtn');
+  let guardActive = false;
+ 
+  function pushGuardState(){
+    history.pushState({ photoGuard: true }, '', location.href);
+    guardActive = true;
+  }
+ 
+  function showLeaveModal(){
+    const count = photos.length;
+    leaveLead.textContent = count === 1
+      ? "You've got 1 photo that hasn't been sent yet. Go back now and it'll be lost for good."
+      : `You've got ${count} photos that haven't been sent yet. Go back now and they'll be lost for good.`;
+    leaveModal.classList.add('show');
+  }
+ 
+  // Arm the guard as soon as the page loads
+  pushGuardState();
+ 
+  window.addEventListener('popstate', () => {
+    if(!guardActive) return; // guard already spent, let the browser actually navigate away
+    guardActive = false;
+ 
+    if(photos.length === 0){
+      // nothing to lose — let them leave without any fuss
+      history.back();
+      return;
+    }
+ 
+    showLeaveModal();
+  });
+ 
+  leaveStayBtn.addEventListener('click', () => {
+    leaveModal.classList.remove('show');
+    pushGuardState(); // re-arm so the next back attempt is caught too
+  });
+ 
+  leaveGoBtn.addEventListener('click', () => {
+    leaveModal.classList.remove('show');
+    guardActive = false;
+    history.back(); // really leave this time
+  });
+ 
+  // Best-effort native warning for closing the tab / refreshing.
+  // Browsers show their own fixed-text prompt here — custom buttons aren't
+  // possible for this specific case, only for the in-app back button above.
+  window.addEventListener('beforeunload', (e) => {
+    if(photos.length > 0){
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
 </script>
-
+ 
 </body>
 </html>
