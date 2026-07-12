@@ -226,8 +226,10 @@
   }
   .gallery-actions{
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
+    align-items:center;
     margin-bottom:10px;
+    gap:8px;
   }
   .btn-small{
     padding:8px 14px;
@@ -410,11 +412,13 @@
 
   <!-- GALLERY VIEW -->
   <div id="viewGallery" class="gallery-wrap" style="display:none;">
-    <div id="galleryEmpty" class="gallery-empty">
-      No photos yet — go capture a few first! 🌸
+    <div class="gallery-actions" id="galleryActions">
+      <button class="btn-ghost btn-small" id="uploadBtn">📁 Add from gallery</button>
+      <button class="btn-ghost btn-small" id="selectAllBtn" style="display:none;">Select all</button>
     </div>
-    <div class="gallery-actions" id="galleryActions" style="display:none;">
-      <button class="btn-ghost btn-small" id="selectAllBtn">Select all</button>
+    <input type="file" id="galleryFileInput" accept="image/*" multiple style="display:none;">
+    <div id="galleryEmpty" class="gallery-empty">
+      No photos yet — go capture a few, or add some from your gallery! 🌸
     </div>
     <div id="grid" class="grid"></div>
 
@@ -480,6 +484,8 @@
   const galleryEmpty = document.getElementById('galleryEmpty');
   const galleryActions = document.getElementById('galleryActions');
   const selectAllBtn = document.getElementById('selectAllBtn');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const galleryFileInput = document.getElementById('galleryFileInput');
   const grid = document.getElementById('grid');
   const sendBar = document.getElementById('sendBar');
   const downloadBtn = document.getElementById('downloadBtn');
@@ -665,6 +671,27 @@
     renderGallery();
   });
 
+  uploadBtn.addEventListener('click', () => {
+    galleryFileInput.click();
+  });
+
+  galleryFileInput.addEventListener('change', () => {
+    const files = Array.from(galleryFileInput.files || []);
+    if(!files.length) return;
+
+    files.forEach(file => {
+      const url = URL.createObjectURL(file);
+      photoSeq++;
+      photos.unshift({ id: photoSeq, blob: file, url, selected: true });
+    });
+
+    renderGallery();
+    toast(files.length === 1 ? 'Photo added! 🌸' : `${files.length} photos added! 🌸`);
+
+    // reset so choosing the same file(s) again still fires the change event
+    galleryFileInput.value = '';
+  });
+
   function renderGallery(){
     galleryBadge.textContent = photos.length ? `(${photos.length})` : '';
     galleryEmpty.style.display = photos.length ? 'none' : 'block';
@@ -683,13 +710,13 @@
     if(photos.length){
       sendBar.style.display = 'flex';
       galleryHint.style.display = 'block';
-      galleryActions.style.display = 'flex';
+      selectAllBtn.style.display = 'inline-block';
       const allSelected = photos.every(p => p.selected);
       selectAllBtn.textContent = allSelected ? 'Deselect all' : 'Select all';
     }else{
       sendBar.style.display = 'none';
       galleryHint.style.display = 'none';
-      galleryActions.style.display = 'none';
+      selectAllBtn.style.display = 'none';
     }
     sendCount.textContent = selected.length ? `${selected.length} selected` : 'None selected';
     downloadBtn.disabled = selected.length === 0;
