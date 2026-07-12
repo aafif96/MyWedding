@@ -401,7 +401,7 @@
       <span class="send-count" id="sendCount"></span>
     </div>
     <p class="hint" id="galleryHint" style="display:none;">
-      Tap photos to select. <b>Save to phone</b> keeps them in your gallery. <b>Send to Mariam</b> opens your share sheet — pick <b>Drive</b> to drop them straight into the wedding album, or we'll open the album link for you.
+      Tap photos to select. <b>Save to phone</b> keeps them in your gallery. <b>Send to Mariam</b> uploads them straight to the wedding album — no app needed.
     </p>
   </div>
 
@@ -434,11 +434,9 @@
 
 <script>
   // ---- CONFIGURE ME -------------------------------------------------
-  // Optional: paste a shareable Google Drive folder link below (a folder
-  // where "Anyone with the link" is set to Editor / "file request" is on).
-  // It's shown as a backup option for guests whose phone can't share
-  // files directly to the Drive app.
-  const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1ywC_4iQCfszJZR8XCEgqVMEucwQXrhqt?usp=drive_link";
+  // Google Apps Script Web App URL (deployed from the wedding Google Sheet/
+  // Drive script). Receives base64 photo data and drops it into the Drive folder.
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxLM1hHZQNw_xhWvnHHa05EjEOszKd3up-znRUFJNDCSoFe6Drlh8oPcdpocdjJ8hf6/exec';
   // ---------------------------------------------------------------------
 
   const video = document.getElementById('video');
@@ -673,40 +671,40 @@
     toast(selected.length === 1 ? 'Saved to your phone! 📥' : `${selected.length} photos saved to your phone! 📥`);
   });
 
+  function sendPhotoToBride(file){
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = function(){
+        const base64 = reader.result.split(',')[1];
+        const formData = new URLSearchParams();
+        formData.append('data', base64);
+        formData.append('filename', file.name);
+        formData.append('mimetype', file.type);
+        fetch(scriptURL, { method: 'POST', body: formData })
+          .then(() => resolve())
+          .catch(() => resolve());
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   driveBtn.addEventListener('click', async () => {
     const selected = photos.filter(p => p.selected);
     if(!selected.length) return;
+
+    const originalLabel = driveBtn.textContent;
+    driveBtn.disabled = true;
+    driveBtn.textContent = 'Sending…';
 
     const files = selected.map((p) =>
       new File([p.blob], `wedding-photo-${p.id}.jpg`, { type: 'image/jpeg' })
     );
 
-    const shareData = {
-      files,
-      title: 'Wedding photos for Mariam',
-      text: 'A photo from the wedding 💐'
-    };
+    await Promise.all(files.map(sendPhotoToBride));
 
-    if(navigator.canShare && navigator.canShare(shareData)){
-      try{
-        await navigator.share(shareData);
-        toast('Sent! Thank you for sharing 💕');
-        return;
-      }catch(err){
-        // user cancelled the share sheet — no need to fall through
-        if(err && err.name === 'AbortError') return;
-      }
-    }
-
-    // Fallback (e.g. desktop, or sharing files isn't supported): download the
-    // photos, then open the wedding Drive folder so they can be dropped in manually.
-    downloadPhotos(selected);
-    if(DRIVE_FOLDER_URL){
-      toast('Photos downloaded — opening the wedding Drive folder so you can add them.');
-      window.open(DRIVE_FOLDER_URL, '_blank');
-    }else{
-      toast('Photos downloaded to your device — add them to the wedding album whenever you like!');
-    }
+    driveBtn.textContent = originalLabel;
+    driveBtn.disabled = selected.length === 0;
+    toast(selected.length === 1 ? 'Sent to Mariam! Thank you ❤️' : `${selected.length} photos sent to Mariam! Thank you ❤️`);
   });
 
   renderGallery();
